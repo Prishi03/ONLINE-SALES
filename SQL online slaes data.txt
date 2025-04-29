@@ -1,0 +1,63 @@
+SELECT * FROM testdb.`order table`;
+
+EXTRACT MONTH FROM ORDER DATE
+
+SELECT *, MONTH(`ORDER_DATE`) AS `MONTH`
+FROM  SELECT SUM(Total_amount) ,
+ MONTH(`ORDER_DATE`) AS `MONTH`FROM testdb.`order table` ;
+
+ the total revenue generated each month
+ SELECT SUM(Total_amount) ,
+ MONTH(`ORDER_DATE`) AS `MONTH`FROM testdb.`order table`
+ Group by month order by month asc;
+ 
+ the number of unique orders placed each month.
+ select count( distinct order_id),
+ Month(`Order_date`) as `month`
+ from testdb.`order table`
+ Group by month 
+ order by month asc;
+ 
+ the top 3 months with the highest total revenue.
+SELECT MONTH(`ORDER_DATE`) AS `Month`,
+       SUM(Total_amount) AS `Total_Revenue`
+FROM testdb.`order table`
+GROUP BY MONTH(`ORDER_DATE`)
+ORDER BY Total_Revenue DESC
+LIMIT 3;
+
+the total revenue and number of orders for each month in the year 2023 only
+SELECT MONTH(`ORDER_DATE`) AS `Month`,
+       SUM(TOTAL_AMOUNT) AS `Total_Revenue`,
+       COUNT(DISTINCT ORDER_ID) AS `No_of_Orders`
+FROM testdb.`order table`
+WHERE YEAR(`ORDER_DATE`) = 2023
+GROUP BY MONTH(`ORDER_DATE`)
+ORDER BY `Month` ASC;
+
+the average order value (Total_amount) per month in 2023, and only include months where total revenue was greater than ₹10000.
+
+SELECT MONTH(`ORDER_DATE`) AS `MONTH`, 
+AVG(TOTAL_AMOUNT) AS `AVG REVENUE`,
+SUM(TOTAL_AMOUNT) AS `TOTAL REVENUE`
+FROM testdb. `order table`
+WHERE YEAR(`ORDER_DATE`) = 2023 
+GROUP BY MONTH(`ORDER_DATE`)
+ HAVING SUM(TOTAL_AMOUNT) > 10000 
+ ORDER BY `MONTH`;
+ 
+  the top 3 months with the highest number of orders placed in 2023.
+  SELECT COUNT(DISTINCT ORDER_ID) as `no.of orders` ,
+  MONTH (`ORDER_DATE`) AS `MONTH`
+  FROM testdb. `order table`
+  WHERE YEAR(`ORDER_DATE`) = 2023
+  Group by `MONTH`
+  order by `no.of orders` DESC
+  LIMIT 3;
+  
+  
+ 
+
+
+
+
